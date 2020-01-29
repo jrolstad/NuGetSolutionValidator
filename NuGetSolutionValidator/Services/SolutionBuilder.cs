@@ -14,9 +14,10 @@ namespace NugetSolutionValidator.Services
         private readonly IBuilder<NuSpecFile, string> _nuspecFileBuilder;
 
         private static readonly IFileSystem DefaultFileSystem = new WindowsFileSystem();
-        private static readonly IBuilder<Project, BuildProjectRequest> DefaultProjectBuilder = new ProjectBuilder(DefaultFileSystem, new NuGetPackageDependencyBuilder(DefaultFileSystem), new FullFrameworkDependencyFileResolver());
+        private static readonly IDependencyFileResolver DefaultDependencyFileResolver = new FullFrameworkDependencyFileResolver();
+        private static readonly IBuilder<Project, BuildProjectRequest> DefaultProjectBuilder = new ProjectBuilder(DefaultFileSystem, new NuGetPackageDependencyBuilder(DefaultFileSystem), DefaultDependencyFileResolver);
         private static readonly IBuilder<NuSpecFile, string> DefaultNuspecFileBuilder = new NuSpecFileBuilder(new NuSpecPackageDependencyBuilder(DefaultFileSystem));
-
+       
         public SolutionBuilder()
             :this(DefaultFileSystem, DefaultProjectBuilder, DefaultNuspecFileBuilder)
         {
