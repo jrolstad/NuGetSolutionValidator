@@ -33,7 +33,9 @@ namespace NugetSolutionValidator.Tests.Services
             var packageBuilder = new Mock<IBuilder<ICollection<NuGetPackageDependency>, string>>();
             packageBuilder.Setup(b => b.Build(_expectedPackageFilePath)).Returns(_dependencies);
 
-            var builder = new ProjectBuilder(fileSystem.Object, packageBuilder.Object);
+            var filePathResolver = new FullFrameworkDependencyFileResolver();
+
+            var builder = new ProjectBuilder(fileSystem.Object, packageBuilder.Object, filePathResolver);
             var request = new BuildProjectRequest()
                 .WithProjectFilePath(_projectFilePath)
                 .WithName(_projectName);
